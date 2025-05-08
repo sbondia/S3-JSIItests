@@ -1,3 +1,5 @@
+const movies = require("./data")
+
 // Exercise 1: Get the array of all directors.
 function getAllDirectors(array) {
 	const arrDirectors = []
@@ -34,18 +36,40 @@ function orderAlphabetically(array) {
 }
 
 // Exercise 5: Order by year, ascending
-function orderByYear() {
-
+function orderByYear(array){
+	const arrSorted = array.toSorted((movieA, movieB)=>(movieA.year==movieB.year) ? movieA.title-movieB.title : movieA.year-movieB.year)
+	return arrSorted
 }
-
+/*
+function orderByYear(array) {
+	const arrSorted = array.toSorted((movieA, movieB)=>{
+		movieA.year==movieB.year ? movieA.title-movieB.title : movieA.year-movieB.year
+	})
+	return arrSorted
+}
+*/ 
 // Exercise 6: Calculate the average of the movies in a category
-function moviesAverageByCategory() {
+function moviesAverageByCategory(array, cat) {
+	let average = 0
+	let movieCounter = 0
+	array.map(movie=> {
+		movie.genre.map(gen=> {if(gen==cat) {average+=movie.score; movieCounter++}})
+	})
+	return average/movieCounter
 
 }
 
 // Exercise 7: Modify the duration of movies to minutes
-function hoursToMinutes() {
 
+function hoursToMinutes(array) {
+	const arrayHTM = array
+	arrayHTM.map(movie=>{
+		movie.duration = movie.duration.replace('h','')
+		movie.duration = movie.duration.replace('min','')
+		const arrayAux = movie.duration.split(' ')
+		movie.duration = parseInt(arrayAux[0])*60+parseInt(arrayAux[1])
+	})
+	return arrayHTM
 }
 
 // Exercise 8: Get the best film of a year
