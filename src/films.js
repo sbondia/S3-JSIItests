@@ -37,7 +37,7 @@ function orderAlphabetically(array) {
 
 // Exercise 5: Order by year, ascending
 function orderByYear(array){
-	const arrSorted = array.toSorted((movieA, movieB)=>(movieA.year==movieB.year) ? movieA.title-movieB.title : movieA.year-movieB.year)
+	const arrSorted = array.toSorted((movieA, movieB)=>(movieA.year==movieB.year) ? (movieA.title).localeCompare(movieB.title) : movieA.year-movieB.year)
 	return arrSorted
 }
 /*
@@ -56,18 +56,38 @@ function moviesAverageByCategory(array, cat) {
 		movie.genre.map(gen=> {if(gen==cat) {average+=movie.score; movieCounter++}})
 	})
 	return average/movieCounter
-
 }
 
 // Exercise 7: Modify the duration of movies to minutes
 
 function hoursToMinutes(array) {
-	const arrayHTM = array
+	const arrayHTM = [...array]
 	arrayHTM.map(movie=>{
-		movie.duration = movie.duration.replace('h','')
-		movie.duration = movie.duration.replace('min','')
-		const arrayAux = movie.duration.split(' ')
-		movie.duration = parseInt(arrayAux[0])*60+parseInt(arrayAux[1])
+		//movie.duration = movie.duration.replace('h','').replace('min','')
+		let stringH = movie.duration
+		for(let i=0; i<stringH.length; i++){
+			if(stringH.charAt(i) == 'h') {stringH.charAt(i)==''}
+			if(stringH.charAt(i) == 'm') {stringH.charAt(i)==''}
+			if(stringH.charAt(i) == 'i') {stringH.charAt(i)==''}
+			if(stringH.charAt(i) == 'n') {stringH.charAt(i)==''} 
+		}
+
+		//const arrayAux = stringH.split(' ')
+		const arrayAux = []
+		let aux = ''
+		for(let i=0; i<stringH.length; i++){
+			aux += stringH.charAt(i)
+			if(stringH.charAt(i) == (' ')){
+				arrayAux.push(aux)
+				aux = ''
+			}
+		}
+		arrayAux.push(aux)
+
+		stringH = parseInt(arrayAux[0])*60+parseInt(arrayAux[1])
+
+		movie.duration = stringH
+
 	})
 	return arrayHTM
 }
