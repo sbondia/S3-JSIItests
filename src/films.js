@@ -40,14 +40,7 @@ function orderByYear(array){
 	const arrSorted = array.toSorted((movieA, movieB)=>(movieA.year==movieB.year) ? (movieA.title).localeCompare(movieB.title) : movieA.year-movieB.year)
 	return arrSorted
 }
-/*
-function orderByYear(array) {
-	const arrSorted = array.toSorted((movieA, movieB)=>{
-		movieA.year==movieB.year ? movieA.title-movieB.title : movieA.year-movieB.year
-	})
-	return arrSorted
-}
-*/ 
+
 // Exercise 6: Calculate the average of the movies in a category
 function moviesAverageByCategory(array, cat) {
 	let average = 0
@@ -59,35 +52,15 @@ function moviesAverageByCategory(array, cat) {
 }
 
 // Exercise 7: Modify the duration of movies to minutes
-
 function hoursToMinutes(array) {
-	const arrayHTM = [...array]
+	const arrayHTM = JSON.parse(JSON.stringify(array))
 	arrayHTM.map(movie=>{
-		//movie.duration = movie.duration.replace('h','').replace('min','')
-		let stringH = movie.duration
-		for(let i=0; i<stringH.length; i++){
-			if(stringH.charAt(i) == 'h') {stringH.charAt(i)==''}
-			if(stringH.charAt(i) == 'm') {stringH.charAt(i)==''}
-			if(stringH.charAt(i) == 'i') {stringH.charAt(i)==''}
-			if(stringH.charAt(i) == 'n') {stringH.charAt(i)==''} 
+		movie.duration = movie.duration.replace('h','').replace('min','')
+		if(!isNaN(movie.duration)) {movie.duration = parseInt(movie.duration)*60}
+		else{
+			const arrayAux = movie.duration.split(' ')
+			movie.duration = parseInt(arrayAux[0])*60+parseInt(arrayAux[1])
 		}
-
-		//const arrayAux = stringH.split(' ')
-		const arrayAux = []
-		let aux = ''
-		for(let i=0; i<stringH.length; i++){
-			aux += stringH.charAt(i)
-			if(stringH.charAt(i) == (' ')){
-				arrayAux.push(aux)
-				aux = ''
-			}
-		}
-		arrayAux.push(aux)
-
-		stringH = parseInt(arrayAux[0])*60+parseInt(arrayAux[1])
-
-		movie.duration = stringH
-
 	})
 	return arrayHTM
 }
